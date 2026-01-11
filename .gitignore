@@ -18,6 +18,7 @@ dist/
 
 # Package files
 *.jar
+!gradle/wrapper/gradle-wrapper.jar  # 이 파일은 무시하지 마라!
 
 # Maven
 target/
