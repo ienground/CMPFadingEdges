@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "CMPFadingEdiges"
+rootProject.name = "CMPFadingEdges"
 
 include(":cmp-fadingedges")
 include(":example")

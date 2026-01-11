@@ -50,6 +50,7 @@ Thumbs.db
 
 *.iml
 .gradle
+.kotlin
 /local.properties
 /.idea/caches
 /.idea/libraries
@@ -63,6 +64,7 @@ build
 .externalNativeBuild
 .cxx
 local.properties
+gradle.properties
 buildSrc/build/classes/kotlin/main/gradle/kotlin/dsl/
 buildSrc/build/
 presentation/envTest/release/
