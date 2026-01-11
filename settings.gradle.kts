@@ -1,17 +1,20 @@
-@file:Suppress("UnstableApiUsage")
-
-include(":app")
-include(":ComposeFadingEdges")
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
         mavenCentral()
         google()
-        includeBuild("plugins")
     }
 }
 
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
 
-rootProject.name = "ComposeFadingEdgesProject"
+rootProject.name = "CMPFadingEdiges"
+
+include(":cmp-fadingedges")
+include(":example")
+include(":example:composeApp")

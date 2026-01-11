@@ -1,4 +1,4 @@
-package com.gigamole.composefadingedges.sample
+package zone.ien.cmpfadingedges.sample
 
 import android.app.Application
 

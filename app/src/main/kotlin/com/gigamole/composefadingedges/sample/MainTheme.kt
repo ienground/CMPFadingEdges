@@ -1,4 +1,4 @@
-package com.gigamole.composefadingedges.sample
+package zone.ien.cmpfadingedges.sample
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme

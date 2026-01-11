@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class, ExperimentalFoundationApi::class)
 
-package com.gigamole.composefadingedges.sample
+package zone.ien.cmpfadingedges.sample
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -72,17 +72,17 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.gigamole.composefadingedges.FadingEdgesDefaults
-import com.gigamole.composefadingedges.FadingEdgesGravity
-import com.gigamole.composefadingedges.FadingEdgesOrientation
-import com.gigamole.composefadingedges.content.FadingEdgesContentType
-import com.gigamole.composefadingedges.content.scrollconfig.FadingEdgesScrollConfig
-import com.gigamole.composefadingedges.content.scrollconfig.FadingEdgesScrollConfigDefaults
-import com.gigamole.composefadingedges.fill.FadingEdgesFillType
-import com.gigamole.composefadingedges.fill.FadingEdgesFillTypeDefaults
-import com.gigamole.composefadingedges.horizontalFadingEdges
-import com.gigamole.composefadingedges.marqueeHorizontalFadingEdges
-import com.gigamole.composefadingedges.verticalFadingEdges
+import zone.ien.cmpfadingedges.FadingEdgesDefaults
+import zone.ien.cmpfadingedges.FadingEdgesGravity
+import zone.ien.cmpfadingedges.FadingEdgesOrientation
+import zone.ien.cmpfadingedges.content.FadingEdgesContentType
+import zone.ien.cmpfadingedges.content.scrollconfig.FadingEdgesScrollConfig
+import zone.ien.cmpfadingedges.content.scrollconfig.FadingEdgesScrollConfigDefaults
+import zone.ien.cmpfadingedges.fill.FadingEdgesFillType
+import zone.ien.cmpfadingedges.fill.FadingEdgesFillTypeDefaults
+import zone.ien.cmpfadingedges.horizontalFadingEdges
+import zone.ien.cmpfadingedges.marqueeHorizontalFadingEdges
+import zone.ien.cmpfadingedges.verticalFadingEdges
 import com.godaddy.android.colorpicker.ClassicColorPicker
 import com.godaddy.android.colorpicker.HsvColor
 import kotlinx.coroutines.delay

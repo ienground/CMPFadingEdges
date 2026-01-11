@@ -19,14 +19,10 @@ android {
     defaultConfig {
         applicationId = appId
     }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.version.get()
-    }
 }
 
 dependencies {
-    implementation(projects.composeFadingEdges)
+//    implementation(projects.cmpFadingedges)
 
     implementation(libs.compose.color.picker)
 
