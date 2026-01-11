@@ -8,6 +8,9 @@ plugins {
     alias(libs.plugins.android.lint)
 }
 
+group = "zone.ien.cmpfadingedges"
+version = libs.versions.lib.version.name.get()
+
 kotlin {
     androidLibrary {
         namespace = "zone.ien.cmpfadingedges"
@@ -63,7 +66,7 @@ mavenPublishing {
 
 //    signAllPublications()
 
-    coordinates(group.toString(), "utils", version.toString())
+    coordinates(group.toString(), "cmp-fadingedges", version.toString())
 
     pom {
         name = project.name
