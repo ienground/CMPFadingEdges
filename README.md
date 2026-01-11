@@ -5,6 +5,10 @@
 
 # CMPFadingEdges
 
+## Download
+![Maven Central Version](https://img.shields.io/maven-central/v/zone.ien.cmpfadingedges/cmp-fadingedges)
+
+
 The `CMPFadingEdges` is a powerful Compose Multiplatform library that seamlessly incorporates customisable fading edges with horizontal or vertical orientations, static or scrollable content, clip or color draw.
 
 ![](/media/demo.gif)
