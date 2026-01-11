@@ -55,8 +55,8 @@ android {
         applicationId = "zone.ien.cmpfadingedges.example"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = libs.versions.lib.version.code.get().toInt()
+        versionName = libs.versions.lib.version.name.get()
     }
     packaging {
         resources {
