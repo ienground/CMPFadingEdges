@@ -4,7 +4,7 @@ kotlin = "2.2.21"
 android-minSdk = "29"
 android-compileSdk = "36"
 android-targetSdk = "36"
-lib-version-name = "1.0.2-alpha02"
+lib-version-name = "1.0.2-alpha03"
 lib-version-code = "100002"
 
 kotlinStdlib = "2.2.21"
