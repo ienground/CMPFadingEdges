@@ -64,7 +64,6 @@ build
 .externalNativeBuild
 .cxx
 local.properties
-gradle.properties
 buildSrc/build/classes/kotlin/main/gradle/kotlin/dsl/
 buildSrc/build/
 presentation/envTest/release/

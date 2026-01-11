@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.portal.SonatypeCentralPortal
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.compose.multiplatform)
@@ -62,10 +64,6 @@ kotlin {
 }
 
 mavenPublishing {
-    publishToMavenCentral()
-
-//    signAllPublications()
-
     coordinates(group.toString(), "cmp-fadingedges", version.toString())
 
     pom {
@@ -92,4 +90,7 @@ mavenPublishing {
             developerConnection = "scm:git:https://github.com/ienground/CMPFadingEdges.git"
         }
     }
+
+    publishToMavenCentral()
+    signAllPublications()
 }
