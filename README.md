@@ -3,9 +3,9 @@
 ![](https://jitpack.io/v/GIGAMOLE/ComposeFadingEdges.svg?style=flat-square) | [Setup Guide](#setup)
 | [Report new issue](https://github.com/GIGAMOLE/ComposeFadingEdges/issues/new)
 
-# ComposeFadingEdges
+# CMPFadingEdges
 
-The `ComposeFadingEdges` is a powerful Android Compose library that seamlessly incorporates customisable fading edges with horizontal or vertical orientations, static or scrollable content, clip or color draw.
+The `CMPFadingEdges` is a powerful Compose Multiplatform library that seamlessly incorporates customisable fading edges with horizontal or vertical orientations, static or scrollable content, clip or color draw.
 
 ![](/media/demo.gif)
 
@@ -44,7 +44,7 @@ Add to the package `build.gradle.kts`:
 
 ``` groovy
 dependencies {
-    implementation("com.github.GIGAMOLE:ComposeFadingEdges:{latest-version}")
+    implementation("zone.ien.cmpfadingedges:cmp-fadingedges:{latest-version}")
 }
 ```
 
@@ -137,3 +137,4 @@ Special thanks to the [GoDaddy](https://github.com/godaddy) for the amazing [col
 
 [Basil Miller](https://www.linkedin.com/in/gigamole/)  
 [gigamole53@gmail.com](mailto:gigamole53@gmail.com)
+[my@ien.zone](mailto:my@ien.zone)
