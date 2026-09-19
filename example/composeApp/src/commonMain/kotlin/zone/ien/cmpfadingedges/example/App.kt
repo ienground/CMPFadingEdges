@@ -105,6 +105,49 @@ fun App() {
     }
 }
 
+@Preview(name = "Static", group = "Content", showBackground = true)
+@Composable
+private fun StaticContentPreview() {
+    ContentPreview(SampleContentType.Static)
+}
+
+@Preview(name = "Scroll", group = "Content", showBackground = true)
+@Composable
+private fun ScrollContentPreview() {
+    ContentPreview(SampleContentType.Scroll)
+}
+
+@Preview(name = "Lazy List", group = "Content", showBackground = true)
+@Composable
+private fun LazyListContentPreview() {
+    ContentPreview(SampleContentType.LazyList)
+}
+
+@Preview(name = "Lazy Grid", group = "Content", showBackground = true)
+@Composable
+private fun LazyGridContentPreview() {
+    ContentPreview(SampleContentType.LazyGrid)
+}
+
+@Preview(name = "Lazy Staggered Grid", group = "Content", showBackground = true)
+@Composable
+private fun LazyStaggeredGridContentPreview() {
+    ContentPreview(SampleContentType.LazyStgrGrid)
+}
+
+@Preview(name = "Marquee", group = "Content", showBackground = true)
+@Composable
+private fun MarqueeContentPreview() {
+    ContentPreview(SampleContentType.Marquee)
+}
+
+@Composable
+private fun ContentPreview(contentType: SampleContentType) {
+    MaterialTheme {
+        MainScreenContent(initialSampleContentType = contentType)
+    }
+}
+
 
 @Composable
 private fun DemoContent() {
@@ -242,7 +285,9 @@ val SampleBgColors = listOf(
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun MainScreenContent() {
+fun MainScreenContent(
+    initialSampleContentType: SampleContentType = SampleContentType.Static
+) {
     val rawStaticScrollState = rememberScrollState()
     val rawScrollState = rememberScrollState()
     val rawLazyListState = rememberLazyListState()
@@ -251,7 +296,9 @@ fun MainScreenContent() {
     val configScrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
 
-    var sampleContentType by remember { mutableStateOf(SampleContentType.Static) }
+    var sampleContentType by remember(initialSampleContentType) {
+        mutableStateOf(initialSampleContentType)
+    }
     var itemsCount by remember { mutableIntStateOf(10) }
     var gridItemsCount by remember { mutableIntStateOf(20) }
     var itemAdditionalSize by remember { mutableStateOf(0.dp) }
@@ -342,6 +389,9 @@ fun MainScreenContent() {
         derivedStateOf {
             when (sampleContentType) {
                 SampleContentType.Static -> {
+                    FadingEdgesContentType.Static
+                }
+                SampleContentType.Marquee -> {
                     FadingEdgesContentType.Static
                 }
                 SampleContentType.Scroll -> {
@@ -783,6 +833,37 @@ fun MainScreenContent() {
                         }
                     }
                 }
+                SampleContentType.Marquee -> {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .border(
+                                color = Color.Red.copy(alpha = 0.25F),
+                                width = 1.dp
+                            )
+                            .padding(horizontal = 20.dp)
+                            .background(Color.Green)
+                    ) {
+                        Text(
+                            text = fadingEdgesMarqueeText,
+                            style = MaterialTheme.typography.labelLarge,
+                            maxLines = 1,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color.Yellow)
+                                .marqueeHorizontalFadingEdges(
+                                    gravity = fadingEdgesGravity,
+                                    length = fadingEdgesLength,
+                                    fillType = fadingEdgesFillType,
+                                    isMarqueeAutoLayout = fadingEdgesIsMarqueeAutoLayout,
+                                    isMarqueeAutoPadding = fadingEdgesIsMarqueeAutoPadding
+                                ) {
+                                    Modifier.basicMarquee(iterations = Int.MAX_VALUE)
+                                }
+                        )
+                    }
+                }
             }
         }
         HorizontalDivider()
@@ -814,18 +895,133 @@ fun MainScreenContent() {
                 .padding(all = 20.dp),
             verticalArrangement = Arrangement.spacedBy(space = 4.dp)
         ) {
-            if (sampleContentType.isLazyGridOrStgrGrid) {
+            if (sampleContentType != SampleContentType.Marquee) {
+                if (sampleContentType.isLazyGridOrStgrGrid) {
+                    Text(
+                        text = "SPAN COUNT:",
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                    SecondaryTabRow(
+                        selectedTabIndex = fadingEdgesSampleGridSpanCount.ordinal,
+                        modifier = Modifier.fillMaxWidth(),
+                        tabs = {
+                            SampleGridSpanCount.entries.forEach { enumValue ->
+                                Tab(
+                                    selected = enumValue == fadingEdgesSampleGridSpanCount,
+                                    text = {
+                                        Text(
+                                            modifier = Modifier.basicMarquee(),
+                                            text = enumValue.name.uppercase(),
+                                            maxLines = 1
+                                        )
+                                    },
+                                    onClick = {
+                                        fadingEdgesSampleGridSpanCount = enumValue
+                                    },
+                                )
+                            }
+                        }
+                    )
+                }
+
+                val endValueRange = if (sampleContentType.isLazyGridOrStgrGrid) {
+                    40
+                } else {
+                    20
+                }
+
                 Text(
-                    text = "SPAN COUNT:",
+                    modifier = Modifier.padding(
+                        top = if (sampleContentType.isLazyGridOrStgrGrid) {
+                            20.dp
+                        } else {
+                            0.dp
+                        }
+                    ),
+                    text = "ITEMS COUNT:",
+                    style = MaterialTheme.typography.labelLarge
+                )
+                Slider(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = if (sampleContentType.isLazyGridOrStgrGrid) {
+                        gridItemsCount.toFloat()
+                    } else {
+                        itemsCount.toFloat()
+                    },
+                    onValueChange = {
+                        if (sampleContentType.isLazyGridOrStgrGrid) {
+                            gridItemsCount = it.toInt()
+                        } else {
+                            itemsCount = it.toInt()
+                        }
+                    },
+                    valueRange = 0.0F..endValueRange.toFloat(),
+                    steps = endValueRange
+                )
+
+                Text(
+                    text = "ITEM ADDITIONAL SIZE:",
+                    style = MaterialTheme.typography.labelLarge
+                )
+                Slider(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = itemAdditionalSize.value,
+                    onValueChange = {
+                        itemAdditionalSize = it.dp
+                    },
+                    valueRange = -40.0F..40.0F,
+                    steps = 50
+                )
+
+                Text(
+                    text = "ITEMS SPACING:",
+                    style = MaterialTheme.typography.labelLarge
+                )
+                Slider(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = itemsSpacing.value,
+                    onValueChange = {
+                        itemsSpacing = it.dp
+                    },
+                    valueRange = 0F..25.0F,
+                    steps = 25
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(space = 20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .weight(weight = 1.0F)
+                            .basicMarquee(),
+                        text = "ITEMS RANDOM HEIGHT:",
+                        style = MaterialTheme.typography.labelLarge,
+                        maxLines = 1
+                    )
+                    Switch(
+                        checked = itemsRandomHeight,
+                        onCheckedChange = {
+                            itemsRandomHeight = it
+                            if (itemsRandomHeight) {
+                                randomSeed = Random.nextInt()
+                            }
+                        }
+                    )
+                }
+
+                Text(
+                    text = "ORIENTATION:",
                     style = MaterialTheme.typography.labelLarge
                 )
                 SecondaryTabRow(
-                    selectedTabIndex = fadingEdgesSampleGridSpanCount.ordinal,
+                    selectedTabIndex = fadingEdgesOrientation.ordinal,
                     modifier = Modifier.fillMaxWidth(),
                     tabs = {
-                        SampleGridSpanCount.entries.forEach { enumValue ->
+                        FadingEdgesOrientation.entries.forEach { enumValue ->
                             Tab(
-                                selected = enumValue == fadingEdgesSampleGridSpanCount,
+                                selected = enumValue == fadingEdgesOrientation,
                                 text = {
                                     Text(
                                         modifier = Modifier.basicMarquee(),
@@ -834,126 +1030,13 @@ fun MainScreenContent() {
                                     )
                                 },
                                 onClick = {
-                                    fadingEdgesSampleGridSpanCount = enumValue
+                                    fadingEdgesOrientation = enumValue
                                 },
                             )
                         }
                     }
                 )
             }
-
-            val endValueRange = if (sampleContentType.isLazyGridOrStgrGrid) {
-                40
-            } else {
-                20
-            }
-
-            Text(
-                modifier = Modifier.padding(
-                    top = if (sampleContentType.isLazyGridOrStgrGrid) {
-                        20.dp
-                    } else {
-                        0.dp
-                    }
-                ),
-                text = "ITEMS COUNT:",
-                style = MaterialTheme.typography.labelLarge
-            )
-            Slider(
-                modifier = Modifier.fillMaxWidth(),
-                value = if (sampleContentType.isLazyGridOrStgrGrid) {
-                    gridItemsCount.toFloat()
-                } else {
-                    itemsCount.toFloat()
-                },
-                onValueChange = {
-                    if (sampleContentType.isLazyGridOrStgrGrid) {
-                        gridItemsCount = it.toInt()
-                    } else {
-                        itemsCount = it.toInt()
-                    }
-                },
-                valueRange = 0.0F..endValueRange.toFloat(),
-                steps = endValueRange
-            )
-
-            Text(
-                text = "ITEM ADDITIONAL SIZE:",
-                style = MaterialTheme.typography.labelLarge
-            )
-            Slider(
-                modifier = Modifier.fillMaxWidth(),
-                value = itemAdditionalSize.value,
-                onValueChange = {
-                    itemAdditionalSize = it.dp
-                },
-                valueRange = -40.0F..40.0F,
-                steps = 50
-            )
-
-            Text(
-                text = "ITEMS SPACING:",
-                style = MaterialTheme.typography.labelLarge
-            )
-            Slider(
-                modifier = Modifier.fillMaxWidth(),
-                value = itemsSpacing.value,
-                onValueChange = {
-                    itemsSpacing = it.dp
-                },
-                valueRange = 0F..25.0F,
-                steps = 25
-            )
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(space = 20.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    modifier = Modifier
-                        .weight(weight = 1.0F)
-                        .basicMarquee(),
-                    text = "ITEMS RANDOM HEIGHT:",
-                    style = MaterialTheme.typography.labelLarge,
-                    maxLines = 1
-                )
-                Switch(
-                    checked = itemsRandomHeight,
-                    onCheckedChange = {
-                        itemsRandomHeight = it
-                        if (itemsRandomHeight) {
-                            randomSeed = Random.nextInt()
-                        }
-                    }
-                )
-            }
-
-            Text(
-                text = "ORIENTATION:",
-                style = MaterialTheme.typography.labelLarge
-            )
-            SecondaryTabRow(
-                selectedTabIndex = fadingEdgesOrientation.ordinal,
-                modifier = Modifier.fillMaxWidth(),
-                tabs = {
-                    FadingEdgesOrientation.entries.forEach { enumValue ->
-                        Tab(
-                            selected = enumValue == fadingEdgesOrientation,
-                            text = {
-                                Text(
-                                    modifier = Modifier.basicMarquee(),
-                                    text = enumValue.name.uppercase(),
-                                    maxLines = 1
-                                )
-                            },
-                            onClick = {
-                                fadingEdgesOrientation = enumValue
-                            },
-                        )
-                    }
-                }
-            )
 
             Text(
                 modifier = Modifier.padding(top = 20.dp),
@@ -997,7 +1080,7 @@ fun MainScreenContent() {
                 steps = 40
             )
 
-            if (sampleContentType != SampleContentType.Static) {
+            if (sampleContentType != SampleContentType.Static && sampleContentType != SampleContentType.Marquee) {
                 Text(
                     modifier = Modifier.padding(top = 20.dp),
                     text = "SCROLL CONFIG:",
@@ -1221,7 +1304,7 @@ fun MainScreenContent() {
                 Spacer(modifier = Modifier.height(height = 4.dp))
             }
 
-            if (fadingEdgesContentType == FadingEdgesContentType.Static) {
+            if (sampleContentType == SampleContentType.Marquee) {
                 Text(
                     text = "MARQUEE TEXT LENGTH:",
                     style = MaterialTheme.typography.labelLarge
@@ -1273,32 +1356,6 @@ fun MainScreenContent() {
                         }
                     )
                 }
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 20.dp)
-                        .border(
-                            color = Color.Red.copy(alpha = 0.25F),
-                            width = 1.dp
-                        )
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .marqueeHorizontalFadingEdges(
-                                gravity = FadingEdgesGravity.All,
-                                length = fadingEdgesLength,
-                                fillType = fadingEdgesFillType,
-                                isMarqueeAutoLayout = fadingEdgesIsMarqueeAutoLayout,
-                                isMarqueeAutoPadding = fadingEdgesIsMarqueeAutoPadding
-                            ) {
-                                Modifier.basicMarquee(iterations = Int.MAX_VALUE)
-                            },
-                        text = fadingEdgesMarqueeText,
-                        style = MaterialTheme.typography.labelLarge,
-                        maxLines = 1
-                    )
-                }
             }
 
             Button(
@@ -1337,7 +1394,8 @@ enum class SampleContentType {
     Scroll,
     LazyList,
     LazyGrid,
-    LazyStgrGrid;
+    LazyStgrGrid,
+    Marquee;
 
     val isLazyGridOrStgrGrid: Boolean
         get() = this == LazyGrid || this == LazyStgrGrid
