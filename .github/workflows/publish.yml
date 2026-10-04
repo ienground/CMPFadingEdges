@@ -1,4 +1,4 @@
-name: Publish to Sonatype Central
+name: Publish to Maven Central
 
 on:
     push:

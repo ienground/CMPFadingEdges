@@ -18,3 +18,4 @@ rootProject.name = "CMPFadingEdges"
 include(":cmp-fadingedges")
 include(":example")
 include(":example:composeApp")
+include(":example:androidApp")

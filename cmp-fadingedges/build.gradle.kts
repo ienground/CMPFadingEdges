@@ -14,14 +14,14 @@ group = "zone.ien.cmpfadingedges"
 version = libs.versions.lib.version.name.get()
 
 kotlin {
-    androidLibrary {
+    android {
         namespace = "zone.ien.cmpfadingedges"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
 
-        withDeviceTestBuilder {
-            sourceSetTreeName = "test"
-        }.configure {
+        withHostTest { }
+
+        withDeviceTest {
             instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
     }
